@@ -16,16 +16,14 @@ const handler = async (event) => {
 
         const options = {
             method: 'POST',
+            url: `https://a.klaviyo.com/api/v2/list/Wiw2cn/subscribe?api_key=${process.env.PRIVATE_KEY}`,
             headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
-            body: JSON.stringify({
+            data: JSON.stringify({
                 profiles: [{email: email}, {phone_number: phone, sms_consent: true}]
             })
         };
-        const response = await axios.post(`https://a.klaviyo.com/api/v2/list/Wiw2cn/subscribe?api_key=${process.env.PRIVATE_KEY}`, options)
-        const data = await response.json()
-        console.log(response)
-        console.log(`\n`)
-        console.log(data)
+        const response = await axios(options)
+        const { data } = response
         if (data?.detail) {
           return {
             statusCode: 400,
