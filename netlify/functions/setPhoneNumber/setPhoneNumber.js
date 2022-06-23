@@ -23,23 +23,28 @@ const handler = async (event) => {
     };
     const response = await fetch(`https://a.klaviyo.com/api/v2/list/Wiw2cn/subscribe?api_key=${process.env.PRIVATE_KEY}`, options)
     const data = await response.json()
-    console.log(response)
-    console.log(`\n`)
-    console.log(data)
-    if (data?.detail) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({res: data.detail})
-      }
-    } else {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({res: "success"})
-      }
-
-    }
+    // console.log(response)
+    // console.log(`\n`)
+    // console.log(data)
+    // if (data?.detail) {
+    //   return {
+    //     statusCode: 400,
+    //     headers,
+    //     body: JSON.stringify({res: data.detail})
+    //   }
+    // } else {
+    //   return {
+    //     statusCode: 200,
+    //     headers,
+    //     body: JSON.stringify({res: "success"})
+    //   }
+    //
+    // }
+    return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({res: "success"})
+        }
   } catch (error) {
     return { statusCode: 500, body: error.toString() }
   }
