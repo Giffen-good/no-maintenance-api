@@ -9,7 +9,7 @@ const handler = async (event) => {
   };
   try {
     const {token, id, data} = event.body
-    console.log("body:",  event.body)
+    console.log("body:",  event.body.token)
     console.log("token:", token)
     console.log("id:", id)
     console.log("data:", data)
