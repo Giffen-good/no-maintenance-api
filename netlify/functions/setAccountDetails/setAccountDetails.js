@@ -8,7 +8,11 @@ const handler = async (event) => {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
   };
   try {
-    const {token, id: id, data} = event.body
+    const {token, id, data} = event.body
+    console.log("token:", token)
+    console.log("id:", id)
+    console.log("data:", data)
+
 
     const user = await getFaunaUserByToken(token);
     console.log(user)
