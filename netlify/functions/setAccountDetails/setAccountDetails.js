@@ -8,9 +8,7 @@ const handler = async (event) => {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
   };
   try {
-    const token = event.queryStringParameters.token;
-    const userId = event.queryStringParameters.id;
-    const data = event.queryStringParameters.data;
+    const {token, id: id, data} = event.body
 
     const user = await getFaunaUserByToken(token);
     console.log(user)
@@ -19,16 +17,13 @@ const handler = async (event) => {
     const customerId = await getCustomerId(user)
 
     // extra validation
-    console.log("userId", typeof userId)
-    console.log("customerId", typeof customerId)
-    if (Number(userId) !== customerId) throw "Error: User ID Mismatch";
+    if (Number(id) !== customerId) throw "Error: User ID Mismatch";
 
     await updateCustomerAccount(customerId, data)
 
     return {
       statusCode: 200,
-      headers,
-      body: JSON.stringify({ status: `Hello ${user}` }),
+      headers
       // // more keys you can return:
       // headers: { "headerName": "headerValue", ... },
       // isBase64Encoded: true,
