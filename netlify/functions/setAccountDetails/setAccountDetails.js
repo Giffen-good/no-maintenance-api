@@ -8,8 +8,9 @@ const handler = async (event) => {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
   };
   try {
-    const {token, id, data} = event.body
-    console.log("body:",  event.body.token)
+    const {token, id, data} = JSON.parse(event.body)
+    console.log("body:",  event.body)
+    console.log("Body type:", typeof event.body);
     console.log("token:", token)
     console.log("id:", id)
     console.log("data:", data)
