@@ -2,6 +2,12 @@
 const axios = require('axios').default;
 const faunadb = require('faunadb')
 const handler = async (event) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+  };
+
   try {
     const username = event.queryStringParameters.username;
     const password = event.queryStringParameters.password;
@@ -12,6 +18,7 @@ const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ token: `${storefrontToken}` }),
 
       // // more keys you can return:

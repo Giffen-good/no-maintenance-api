@@ -2,6 +2,11 @@
 const faunadb = require("faunadb");
 const {default: axios} = require("axios");
 const handler = async (event) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+  };
   try {
     const token = event.queryStringParameters.token;
     const userId = event.queryStringParameters.id;
@@ -22,6 +27,7 @@ const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ status: `Hello ${user}` }),
       // // more keys you can return:
       // headers: { "headerName": "headerValue", ... },
