@@ -10,7 +10,7 @@ const handler = async (event) => {
 
   try {
     const username = event.queryStringParameters.username;
-    const password = decodeURI(event.queryStringParameters.password);
+    const password = event.queryStringParameters.password;
 
     const storefrontToken = await getStorefrontToken(username, password);
     const dbRes = await getAndSetFaunaToken(username,storefrontToken)
@@ -164,6 +164,8 @@ const getStorefrontToken = async (username, password) => {
   };
   const response = await axios(options)
   const { data } = response
+  console.log(`  email: "${username}",
+          password: "${password}"`)
   console.log(`Domain:: ${process.env.SHOP_DOMAIN}`)
   console.log(`storefront token:: ${process.env.STOREFRONT_ACCESS_TOKEN}`)
   console.log(data.data.customerAccessTokenCreate.customerUserErrors[0])
