@@ -166,7 +166,7 @@ const getStorefrontToken = async (username, password) => {
   const { data } = response
   console.log(`Domain:: ${process.env.SHOP_DOMAIN}`)
   console.log(`storefront token:: ${process.env.STOREFRONT_ACCESS_TOKEN}`)
-  console.log(data.data)
+  console.log(data.data.customerAccessTokenCreate.customerUserErrors[0])
   if (!data.data.customerAccessTokenCreate.customerAccessToken)
     throw "Error: Failed to retrieve access token"
   return data.data.customerAccessTokenCreate.customerAccessToken.accessToken;
