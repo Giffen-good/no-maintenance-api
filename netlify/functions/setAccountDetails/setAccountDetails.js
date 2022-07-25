@@ -9,15 +9,8 @@ const handler = async (event) => {
   };
   try {
     const {token, id, data} = JSON.parse(event.body)
-    console.log("body:",  event.body)
-    console.log("Body type:", typeof event.body);
-    console.log("token:", token)
-    console.log("id:", id)
-    console.log("data:", data)
-
 
     const user = await getFaunaUserByToken(token);
-    console.log(user)
     if (!user) throw "Error: Document not found."
 
     const customerId = await getCustomerId(user)
