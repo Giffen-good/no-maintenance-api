@@ -10,7 +10,7 @@ const handler = async (event) => {
 
   try {
     const username = event.queryStringParameters.username;
-    const password = event.queryStringParameters.password;
+    const password = decodeURI(event.queryStringParameters.password);
 
     const storefrontToken = await getStorefrontToken(username, password);
     const dbRes = await getAndSetFaunaToken(username,storefrontToken)
