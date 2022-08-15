@@ -9,9 +9,7 @@ const handler = async (event) => {
   };
 
   try {
-    const username = event.queryStringParameters.username;
-    const password = event.queryStringParameters.password;
-
+    const {username, password} = JSON.parse(event.body)
     const storefrontToken = await getStorefrontToken(username, password);
     const dbRes = await getAndSetFaunaToken(username,storefrontToken)
     console.log(dbRes)
@@ -20,10 +18,6 @@ const handler = async (event) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({ token: `${storefrontToken}` }),
-
-      // // more keys you can return:
-      // headers: { "headerName": "headerValue", ... },
-      // isBase64Encoded: true,
     }
   } catch (error) {
     return { statusCode: 500, body: error.toString() }
