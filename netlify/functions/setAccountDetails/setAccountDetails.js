@@ -85,6 +85,8 @@ const updateCustomerAccount = async (id, data) => {
 
 
 const getFaunaUserByToken = async (token) => {
+  console.log('getFaunaUserByToken')
+  console.log( process.env.FAUNADB_ADMIN_SECRET)
   const q = faunadb.query
   const client = new faunadb.Client({
     secret: process.env.FAUNADB_ADMIN_SECRET
