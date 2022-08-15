@@ -46,16 +46,15 @@ const getCustomerId = async (email) => {
 
 const updateCustomerAccount = async (id, d) => {
   console.log('Update Customer Account')
-  const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`;
   const {first_name, last_name, accepts_marketing, email} = d
 
   const query =  `mutation customerUpdate {
       customerUpdate(input: {
           id: "gid://shopify/Customer/${id}",
           firstName: "${first_name}",
-          "lastName": "${last_name}",
-          "emailMarketingConsent": "${accepts_marketing}",
-          "email": "${email}"
+          lastName: "${last_name}",
+          emailMarketingConsent: "${accepts_marketing}",
+          email: "${email}"
       }) {
         userErrors { 
           field 
