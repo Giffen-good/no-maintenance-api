@@ -46,8 +46,9 @@ const getCustomerId = async (email) => {
 
 const updateCustomerAccount = async (id, data) => {
   console.log('Update Customer Account')
-  const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`
-
+  const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`;
+  console.log('data:',data)
+  const {first_name, last_name, accepts_marketing, email} = data
   const client = new Shopify.Clients.Graphql(process.env.SHOP_DOMAIN, process.env.SHOP_ACCESS_TOKEN);
   console.log('client', client)
   const d = await client.query({
@@ -70,10 +71,10 @@ const updateCustomerAccount = async (id, data) => {
       "variables": {
         "input": {
           "id": `gid://shopify/Customer/${id}`,
-          "firstName": data.first_name,
-          "lastName": data.last_name,
-          "emailMarketingConsent": data.accepts_marketing,
-          "email": data.email
+          "firstName": first_name,
+          "lastName": last_name,
+          "emailMarketingConsent": accepts_marketing,
+          "email": email
         }
       }
     }
