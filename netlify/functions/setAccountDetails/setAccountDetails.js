@@ -55,7 +55,6 @@ const updateCustomerAccount = async (id, data) => {
     data,
     headers: {'Content-Type': 'application/json', 'X-Shopify-Access-Token': `${process.env.SHOP_ACCESS_TOKEN}`}
   };
-  console.log(options)
   return await axios(options).then((res) => res)
     .catch((err) => {
       console.error(err)
