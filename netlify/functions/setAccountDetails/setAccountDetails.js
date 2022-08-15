@@ -1,6 +1,5 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const faunadb = require("faunadb");
-const Shopify = require("Shopify");
 const {default: axios} = require("axios");
 const handler = async (event) => {
   const headers = {
