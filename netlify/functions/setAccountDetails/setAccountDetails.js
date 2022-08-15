@@ -53,7 +53,7 @@ const updateCustomerAccount = async (id, d) => {
       customerUpdate(input: {
           id: "gid://shopify/Customer/${id}",
           firstName: "${first_name}",
-          "lastName": "${last_name},
+          "lastName": "${last_name}",
           "emailMarketingConsent": "${accepts_marketing}",
           "email": "${email}"
       }) {
@@ -84,6 +84,7 @@ const updateCustomerAccount = async (id, d) => {
   };
   const response = await axios(options)
   const { data } = response;
+  if (data.errors) throw "ERROR: Customer account could not be updated"
   console.log(data)
 
 }
