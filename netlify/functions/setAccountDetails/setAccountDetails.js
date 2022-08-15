@@ -49,6 +49,7 @@ const updateCustomerAccount = async (id, data) => {
   const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`
 
   const client = new Shopify.Clients.Graphql(process.env.SHOP_DOMAIN, process.env.SHOP_ACCESS_TOKEN);
+  console.log('client', client)
   const d = await client.query({
     data: {
       "query": `mutation customerUpdate($input: CustomerInput!) {
@@ -77,6 +78,7 @@ const updateCustomerAccount = async (id, data) => {
       }
     }
   })
+  console.log('query', d)
 
 }
 
