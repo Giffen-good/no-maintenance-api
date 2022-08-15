@@ -44,11 +44,10 @@ const getCustomerId = async (email) => {
   return customerId
 }
 
-const updateCustomerAccount = async (id, data) => {
+const updateCustomerAccount = async (id, d) => {
   console.log('Update Customer Account')
   const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`;
-  console.log('data:',data)
-  const {first_name, last_name, accepts_marketing, email} = data
+  const {first_name, last_name, accepts_marketing, email} = d
 
   const query =  `mutation customerUpdate {
       customerUpdate(input: {
@@ -83,7 +82,9 @@ const updateCustomerAccount = async (id, data) => {
       query: query
     }
   };
-  console.log('query', d)
+  const response = await axios(options)
+  const { data } = response;
+  console.log(data)
 
 }
 
