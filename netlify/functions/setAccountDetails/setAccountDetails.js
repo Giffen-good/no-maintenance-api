@@ -84,8 +84,9 @@ const updateCustomerAccount = async (id, d) => {
   };
   const response = await axios(options)
   const { data } = response;
-  if (data.errors) throw "ERROR: Customer account could not be updated"
+
   console.log(data)
+  if (data.errors) throw "ERROR: Customer account could not be updated"
 
 }
 
