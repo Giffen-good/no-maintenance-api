@@ -23,9 +23,6 @@ const handler = async (event) => {
     return {
       statusCode: 200,
       headers
-      // // more keys you can return:
-      // headers: { "headerName": "headerValue", ... },
-      // isBase64Encoded: true,
     }
   } catch (error) {
     return { statusCode: 500, body: error.toString() }
@@ -46,20 +43,41 @@ const getCustomerId = async (email) => {
     })
   return customerId
 }
+
 const updateCustomerAccount = async (id, data) => {
   console.log('Update Customer Account')
   const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`
-  const options = {
-    method: 'PUT',
-    url,
-    data,
-    headers: {'Content-Type': 'application/json', 'X-Shopify-Access-Token': `${process.env.SHOP_ACCESS_TOKEN}`}
-  };
-  return await axios(options).then((res) => res)
-    .catch((err) => {
-      console.error(err)
-      throw err;
-    })
+
+  const client = new Shopify.Clients.Graphql(process.env.SHOP_DOMAIN, process.env.SHOP_ACCESS_TOKEN);
+  const d = await client.query({
+    data: {
+      "query": `mutation customerUpdate($input: CustomerInput!) {
+      customerUpdate(input: $input) {
+        userErrors { 
+          field 
+          message 
+        }
+        customer {
+          id
+          firstName
+          lastName
+          emailMarketingConsent
+          email
+        }
+      }
+    }`,
+      "variables": {
+        "input": {
+          "id": `gid://shopify/Customer/${id}`,
+          "firstName": data.first_name,
+          "lastName": data.last_name,
+          "emailMarketingConsent": data.accepts_marketing,
+          "email": data.email
+        }
+      }
+    }
+  })
+
 }
 
 
