@@ -35,6 +35,7 @@ const getAndSetFaunaToken = async (username, token) => {
     dbWrite = await setToken(client,q,username,token);
   } else {
     if (token !== doc.data.accessToken) {
+      console.log("Access token updated")
       dbWrite = await updateToken(client,q, token, doc.ref.id);
     } else {
       // no write required

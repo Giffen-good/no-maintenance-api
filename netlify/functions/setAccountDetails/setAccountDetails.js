@@ -1,5 +1,6 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const faunadb = require("faunadb");
+const Shopify = require("Shopify");
 const {default: axios} = require("axios");
 const handler = async (event) => {
   const headers = {
@@ -49,12 +50,15 @@ const updateCustomerAccount = async (id, data) => {
   const url = `https://${process.env.SHOP_DOMAIN}/admin/api/2022-04/customers/${id}.json`;
   console.log('data:',data)
   const {first_name, last_name, accepts_marketing, email} = data
-  const client = new Shopify.Clients.Graphql(process.env.SHOP_DOMAIN, process.env.SHOP_ACCESS_TOKEN);
-  console.log('client', client)
-  const d = await client.query({
-    data: {
-      "query": `mutation customerUpdate($input: CustomerInput!) {
-      customerUpdate(input: $input) {
+
+  const query =  `mutation customerUpdate {
+      customerUpdate(input: {
+          id: "gid://shopify/Customer/${id}",
+          firstName: "${first_name}",
+          "lastName": "${last_name},
+          "emailMarketingConsent": "${accepts_marketing}",
+          "email": "${email}"
+      }) {
         userErrors { 
           field 
           message 
@@ -67,18 +71,19 @@ const updateCustomerAccount = async (id, data) => {
           email
         }
       }
-    }`,
-      "variables": {
-        "input": {
-          "id": `gid://shopify/Customer/${id}`,
-          "firstName": first_name,
-          "lastName": last_name,
-          "emailMarketingConsent": accepts_marketing,
-          "email": email
-        }
-      }
+    }`
+  const options = {
+    method: 'POST',
+    url: `https://${process.env.SHOP_DOMAIN}/api/2020-07/graphql.json`,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': `${process.env.STOREFRONT_ACCESS_TOKEN}`
+    },
+    data: {
+      query: query
     }
-  })
+  };
   console.log('query', d)
 
 }
